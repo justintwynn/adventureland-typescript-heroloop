@@ -1,3 +1,5 @@
+import { promises } from "fs";
+
 type ItemName = string; // TODO: Same as with skills
 export interface ICharacter extends Entity {
   party?: string;
@@ -117,6 +119,14 @@ declare global {
   function show_json(stuff: any): void;
   function can_move(args: { map: string; x: number; y: number; going_x: number; going_y: number }): boolean;
   function stop(what: string): void;
+  function is_moving(entity: Entity): boolean;
+  function in_attack_range(target: Entity): boolean;
+  function use_hp_or_mp(): void;
+  function get_targeted_monster(): Entity;
+  function get_nearest_monster(args: object): Entity;
+  function smart_move(destination: Entity, on_done?: any): void;
+  function set_skillbar(arguments: string[]): void;
+  function buy(name: ItemInfo, quantity?: number): Promise<object>;
 
   function draw_circle(x: number, y: number, radius: number, size?: number, color?: number): Drawing;
   function draw_line(x: number, y: number, x2: number, y2: number, size?: number, color?: number): Drawing;
