@@ -2,31 +2,50 @@ import { ItemInfo } from "definitions/game";
 
 const HP_SMALL: ItemInfo = {name: 'hpot0'};
 
+export function replenish_potions() {
+  maintain_stock(HP_SMALL, 15, 100);
+}
 
-export function restock_potions(hp_potion: ItemInfo, mp_potion: ItemInfo, pots_minimum: number, quantity: number) {
-  let hppot = find_item(i => i.name == hp_potion)[1];
-  let mppot = find_item(i => i.name == mp_potion)[1];
-  if ((!hppot || hppot.q < pots_minimum)) {
-    buy(hp_potion, quantity);
-    set_message("Buying HP pots.");
-  }
-  if ((!mppot || mppot.q < pots_minimum)) {
-    buy(mp_potion, quantity);
-    set_message("Buying MP pots.");
+export function maintain_stock(stock_item: ItemInfo, restock_minimum: number, restock_quantity: number) {
+  let quantity: number = quantity_inventory(stock_item);
+
+  //console.log("Buying " + stock_item.name + " at or under # " + restock_minimum + " until " + restock_quantity);
+  if(quantity < restock_minimum) {
+    smart_move(G.npcs['fancypots']);
+    buy_item(stock_item, restock_quantity);
   }
 }
 
+function quantity_inventory(item: ItemInfo): number {
+  let quantity: number = 0;
 
-function find_item(filter: (arg0: any) => boolean) {
-  for (let i = 0; i < character.items.length; i++) {
-      let item = character.items[i];
+  let items_in_inventory: ItemInfo[] = search_inventory((i) => i.name == item.name);
 
-      if (item && filter(item))
-      return [i, character.items[i]];
-  }
+  items_in_inventory.forEach(item => {
+    if(item.q) quantity += item.q;
+  });
+
+  return quantity;
+}
+
+function search_inventory(predicate: (p: any) => boolean): ItemInfo[] {
+  let results: ItemInfo[] = [];
+  
+  character.items.forEach(i => {
+    if(predicate != undefined) {
+      if(i != undefined) {
+        if(predicate(i)) {
+          results.push(i);
+        } 
+      }
+    }
+  });
+
+  return results;
 }
 
 export function buy_item(item: ItemInfo, quantity: number) {
-  buy(item, quantity);
+  console.log("Buying " + quantity + " " + item.name)
+  buy(item.name, quantity);
   set_message("Buying " + item.name);
 }

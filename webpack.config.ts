@@ -142,7 +142,8 @@ const config: webpack.Configuration = {
     extensions: [".ts"],
     modules: [path.resolve(__dirname, "src")],
   },
-  plugins: [new FriendlyErrorsWebpackPlugin(), new ALUploader()],
+  //plugins: [new FriendlyErrorsWebpackPlugin(), new ALUploader()],
+  plugins: [new ALUploader()],
   module: {
     rules: [
       {
@@ -150,6 +151,7 @@ const config: webpack.Configuration = {
         test: /\.ts$/,
         use: "babel-loader",
         exclude: /node_modules/,
+        //options: { plugins: ['lodash']},
       },
     ],
   },

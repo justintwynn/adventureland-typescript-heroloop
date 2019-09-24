@@ -74,6 +74,7 @@ export interface GameInfo {
   skills: { [T in SkillName]: SkillInfo };
   items: { [T in ItemName]: ItemInfo };
   monsters: { [id: string]: Monster };
+  npcs: { [id: string]: Entity };
 }
 
 declare global {
@@ -126,7 +127,7 @@ declare global {
   function get_nearest_monster(args: object): Entity;
   function smart_move(destination: Entity, on_done?: any): void;
   function set_skillbar(arguments: string[]): void;
-  function buy(name: ItemInfo, quantity?: number): Promise<object>;
+  function buy(name: string, quantity?: number): Promise<object>;
 
   function draw_circle(x: number, y: number, radius: number, size?: number, color?: number): Drawing;
   function draw_line(x: number, y: number, x2: number, y2: number, size?: number, color?: number): Drawing;
