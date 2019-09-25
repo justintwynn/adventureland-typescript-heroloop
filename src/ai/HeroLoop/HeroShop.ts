@@ -11,8 +11,7 @@ export function maintain_stock(stock_item: ItemInfo, restock_minimum: number, re
 
   //console.log("Buying " + stock_item.name + " at or under # " + restock_minimum + " until " + restock_quantity);
   if(quantity < restock_minimum) {
-    smart_move(G.npcs['fancypots']);
-    buy_item(stock_item, restock_quantity);
+    smart_move("potions", () => buy_item(stock_item, restock_quantity));
   }
 }
 

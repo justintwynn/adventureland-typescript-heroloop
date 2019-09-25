@@ -125,7 +125,7 @@ declare global {
   function use_hp_or_mp(): void;
   function get_targeted_monster(): Entity;
   function get_nearest_monster(args: object): Entity;
-  function smart_move(destination: Entity, on_done?: any): void;
+  function smart_move(destination: Entity | string, on_done?: any): void;
   function set_skillbar(arguments: string[]): void;
   function buy(name: string, quantity?: number): Promise<object>;
 
